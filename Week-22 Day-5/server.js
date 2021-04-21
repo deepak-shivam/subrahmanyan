@@ -14,12 +14,13 @@ app.use(express.json())
 const PORT = 5000
 
 
-
+//list of books
 app.get('/book', (req, res) => {
     fs.readFile('./books.json', 'utf-8', (err, data) => {
         if (err) {
             return res.status(500).json({ message: "Internal server error", success: false, response: err })
         }
+        //converty json to javascript object
         const parsedData = JSON.parse(data)
         res.status(200).json({ success: true, message: `${parsedData.length} books found successfully`, response: parsedData })
     })
@@ -37,16 +38,19 @@ app.get('/book/:id', (req, res) => {
         const book = parsedData.find(obj => obj.id === id)
         if (!book) {
             return res.status(404).json({ message: "Not found", success: false, response: {} })
-        }
-        res.status(200).json({ name: true, message: "book found successfully", response: book })
-
+        }  
+        res.status(200).json({ success: true, message: "book found successfully", response: book })
     })
 })
 
 //ADD BOOK
+//Insert a book in our database
 app.post('/book', (req, res) => {
+    //const body = req.body
     const { body } = req
     const id = uuidv4()
+    console.log("id", id)
+   // body.id = id
     body["id"] = id
     fs.readFile('./books.json', 'utf-8', (err, data) => {
         if (err) {
