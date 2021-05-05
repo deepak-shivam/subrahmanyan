@@ -12,9 +12,9 @@ opts.secretOrKey = keys.secretKey;
 module.exports = (passport) => {
   passport.use(
     new JwtStrategy(opts, (jwt_payload, done) => {
-      fs.readFile("./db/book.json", "utf-8", (err, data) => {
+      fs.readFile("./db/user.json", "utf-8", (err, data) => {
         if (err) {
-          console.log("some error occured");
+          console.log("some error occured", err);
         }
         const parsedData = JSON.parse(data);
         const user = parsedData.find((obj) => obj.id === jwt_payload.id);

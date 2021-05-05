@@ -17,6 +17,12 @@ module.exports = {
             if (err) {
                 return res.status(500).json({ message: "Internal server error", success: false, response: err })
             }
+            const parsedData = JSON.parse(data)
+            const user = parsedData.find(obj => obj.email === dataTosave.email)
+            if (user) {
+                return res.status(409).json({ message: "Given user already exist", success: false, response: {} })
+            }
+            
             const id = uuidv4()
             let hashedPassword;
             hashedPassword = await bcrypt.hash(password, 10)
@@ -25,11 +31,6 @@ module.exports = {
                 email,
                 id,
                 password: hashedPassword
-            }
-            const parsedData = JSON.parse(data)
-            const user = parsedData.find(obj => obj.email === dataTosave.email)
-            if (user) {
-                return res.status(409).json({ message: "Given user already exist", success: false, response: {} })
             }
             const array = JSON.parse(data)
             array.push(dataTosave)
