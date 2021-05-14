@@ -10,12 +10,16 @@ const {userRegister, userLogin} = require('../controller/user')
 const {addMovie, getMovie, getMovies, updateMovie, deleteMovie} = require('../controller/movie')
 
 
+
+//unprotected routes
 //user register
 routes.post('/user/register', userRegister )
 
 //user login
 routes.post('/user/login', userLogin)
 
+
+//protected routes means to get response from this routes you need to have token
 //get all movies
 routes.get('/movie',passport.authenticate('jwt', { session: false }), getMovies)
 

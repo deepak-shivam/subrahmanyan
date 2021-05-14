@@ -1,7 +1,11 @@
 const csv = require('csvtojson/v2')
 const csvFilePath = './csv/netflix_titles.csv'
 const jsonFilePath = './json/netflix_titles.json'
+//node core modules
 const fs = require('fs')
+
+//crypto
+
 const express = require("express");
 
 const app = express();
@@ -9,6 +13,7 @@ const app = express();
 const csvToJson = async (csvFilePath, jsonFilePath) => {
     try {
         const jsonData = await csv().fromFile(csvFilePath)
+        console.log(jsonData)
         fs.writeFile(jsonFilePath, JSON.stringify(jsonData), (err) => {
             if (err) {
                 console.log("Error in write file",err)
